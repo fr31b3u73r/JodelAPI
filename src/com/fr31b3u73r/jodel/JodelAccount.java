@@ -13,8 +13,8 @@ public class JodelAccount {
 
     static final String API_URL = "https://api.go-tellm.com/api";
     static final String CLIENT_ID = "81e8a76e-1e02-4d17-9ba0-8a7020261b26";
-    static final String SECRET = "DOTrPEbAXvJmqDKnvdLCPJlUyKenbDoAJWiAxxnT";
-    static final String VERSION = "4.44.1";
+    static final String SECRET = "BOSLezMNMuQFtOkpdUfNDmHjhCJJjkjstNwdBvBL";
+    static final String VERSION = "4.45.2";
 
     String accessToken = null;
     String deviceUID = null;
