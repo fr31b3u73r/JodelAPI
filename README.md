@@ -54,7 +54,7 @@ Creating a new Jodel with a verified account is simple. Just use ```createPost``
 ```java
 JodelRequestResponse createResponse = ja.createPost("Ich bin eine Münchner Ampel", null, JodelPostColor.RED, null);
 ```
-The first parameter is the message, in the second parameter you can pass a base64 encoded image, the third parameter is the color (as defined in Class ```JodelPostColor```) and the last parameter defines the channel (use null if you don´ want to post to a chanel).
+The first parameter is the message, in the second parameter you can pass a base64 encoded image, the third parameter is the color (as defined in Class ```JodelPostColor```) and the last parameter defines the channel (use null if you don´t want to post to a chanel).
 
 
 #### Retrieve Jodels
@@ -68,6 +68,7 @@ To retrieve Jodels from other users you can use one of the functions in ```Jodel
 * getMyPinnedPosts
 * getMyRepliedPosts
 * getMyVotedPosts
+
 Have a look into source to see which parameters can be used calling those functions.
 
 Here is an example:
