@@ -25,6 +25,20 @@ public class JodelAccount {
     String longitude = null;
     JodelHTTPAction httpAction;
 
+    /**
+     * Constructor for JodelAccount class
+     * @param lat Latitute of location
+     * @param lng Longitude of location
+     * @param city Name of the city
+     * @param country Countrycode (e.g. DE for Germany)
+     * @param name Name of the location (normally the same as city)
+     * @param updateLocation Boolean to update a location for existing account
+     * @param accessToken Access token of account
+     * @param deviceUID Device ID of account
+     * @param refreshToken Refresh token of account
+     * @param distinctID Distinct ID of account
+     * @param expirationDate Timestamp of expiration date
+     */
     public JodelAccount(String lat, String lng, String city, String country, String name, Boolean updateLocation,
                         String accessToken, String deviceUID, String refreshToken, String distinctID, String expirationDate) {
 
@@ -59,6 +73,10 @@ public class JodelAccount {
 
     }
 
+    /**
+     * Returns current account data as object of type JodelAccountData
+     * @return Account data
+     */
     public JodelAccountData getAccountData() {
         JodelAccountData myJodelAccountData = new JodelAccountData();
         myJodelAccountData.accessToken = this.accessToken;
@@ -69,8 +87,10 @@ public class JodelAccount {
         return myJodelAccountData;
     }
 
-    // Creates a new account with random ID if self.device_uid is not set. Otherwise renews all tokens of the
-    // account with ID = this.device_uid.
+
+    /**
+     * Creates a new account with random ID if self.device_uid is not set. Otherwise renews all tokens of the account with ID = this.device_uid.
+     */
     public void refreshAllTokens() {
         if (this.deviceUID == null) {
             char[] validChars = "abcdef0123456789".toCharArray();
@@ -102,7 +122,9 @@ public class JodelAccount {
         }
     }
 
-    // Refreshes the Access Token of the currently used account
+    /**
+     * Refreshes the Access Token of the currently used account
+     */
     public void refreshAccessToken() {
         this.updateHTTPParameter();
         JodelHTTPResponse requestResponse = this.httpAction.getNewAccessToken();
@@ -120,7 +142,10 @@ public class JodelAccount {
         }
     }
 
-    // Gets the captcha image url and key for not verified users
+    /**
+     * Gets the captcha image url and key for not verified users
+     * @return Object of type JodelRequestResponse containing captcha URL and key in responseValues attribute
+     */
     public JodelRequestResponse getCaptchaData() {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
 
@@ -167,7 +192,12 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // Solves the captcha so that a user can verify his account
+    /**
+     * Solves the captcha so that a user can verify his account
+     * @param key Key of captcha
+     * @param positions List of positions with racoon (starting with 0 from left to right)
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse verifyCaptcha(String key, List<Integer> positions) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -182,7 +212,15 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // Creates a new Jodel
+    /**
+     * Creates a new Jodel
+     * @param message Text message for new Jodel
+     * @param base64Image Base64 encoded image
+     * @param color Color of the Jodel
+     * @param channel Channel to post Jodel to
+     * @param ancestor For replies specify an ancestor
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse createPost(String message, String base64Image, String color, String channel, int ancestor) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         if (message == null && base64Image == null) {
@@ -202,12 +240,30 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // Creates a new Jodel with no ancestor (i.e. no reply)
+    /**
+     * Creates a new Jodel with no ancestor (i.e. no reply)
+     * @param message Text message for new Jodel
+     * @param base64Image Base64 encoded image
+     * @param color Color of the Jodel
+     * @param channel Channel to post Jodel to
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse createPost(String message, String base64Image, String color, String channel) {
         return this.createPost(message, base64Image, color, channel, 0);
     }
 
-    // Gets Jodels matching given criteria
+    /**
+     * Gets Jodels matching given criteria
+     * @param postTypes Types of Jodels to return (e.g. popular, discussed etc.)
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @param mine Boolean to set output to only own Jodels
+     * @param hashtag Hashtag to filter Jodels
+     * @param channel Channel to filter Jodels
+     * @param pictures Boolean for selecting pictures
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPosts(String postTypes, int skip, int limit, String after, boolean mine, String hashtag, String channel, boolean pictures) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
 
@@ -244,52 +300,120 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // Gets recent Jodels matching given criteria
+    /**
+     * Gets recent Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @param mine Boolean to set output to only own Jodels
+     * @param hashtag Hashtag to filter Jodels
+     * @param channel Channel to filter Jodels
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPostsRecent(int skip, int limit, String after, boolean mine, String hashtag, String channel) {
         return this.getPosts("", skip, limit, after, mine, hashtag, channel, false);
     }
 
-    // Gets popular Jodels matching given criteria
+    /**
+     * Gets popular Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @param mine Boolean to set output to only own Jodels
+     * @param hashtag Hashtag to filter Jodels
+     * @param channel Channel to filter Jodels
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPostsPopular(int skip, int limit, String after, boolean mine, String hashtag, String channel) {
         return this.getPosts("popular", skip, limit, after, mine, hashtag, channel, false);
     }
 
-    // Gets most discussed Jodels matching given criteria
+    /**
+     * Gets most discussed Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @param mine Boolean to set output to only own Jodels
+     * @param hashtag Hashtag to filter Jodels
+     * @param channel Channel to filter Jodels
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPostsDiscussed(int skip, int limit, String after, boolean mine, String hashtag, String channel) {
         return this.getPosts("discussed", skip, limit, after, mine, hashtag, channel, false);
     }
 
-    // Gets recent picture Jodels matching given criteria
+    /**
+     * Gets recent picture Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPicturesRecent(int skip, int limit, String after) {
         return this.getPosts("", skip, limit, after, false, null, null, true);
     }
 
-    // Gets popular picture Jodels matching given criteria
+    /**
+     * Gets popular picture Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPicturesPopular(int skip, int limit, String after) {
         return this.getPosts("popular", skip, limit, after, false, null, null, true);
     }
 
-    // Gets most discussed picture Jodels matching given criteria
+    /**
+     * Gets most discussed picture Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPicturesDiscussed(int skip, int limit, String after) {
         return this.getPosts("discussed", skip, limit, after, false, null, null, true);
     }
 
-    // Gets your pinned Jodels matching given criteria
+    /**
+     * Gets your pinned Jodels matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getMyPinnedPosts(int skip, int limit, String after) {
         return this.getPosts("pinned", skip, limit, after, true, null, null, false);
     }
 
-    // Gets Jodels you replied to matching given criteria
+    /**
+     * Gets Jodels you replied to matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @return The requestResponse of type JodelRequestResponse
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getMyRepliedPosts(int skip, int limit, String after) {
         return this.getPosts("replies", skip, limit, after, true, null, null, false);
     }
 
-    // Gets Jodels you voted to matching given criteria
+    /**
+     * Gets Jodels you voted to matching given criteria
+     * @param skip Skip value
+     * @param limit Limit returned Jodels to a certain number
+     * @param after Return only Jodels after a certain post
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getMyVotedPosts(int skip, int limit, String after) {
         return this.getPosts("votes", skip, limit, after, true, null, null, false);
     }
 
-    // Gets a single Jodel with all replies by post ID
+    /**
+     * Gets a single Jodel with all replies by post ID
+     * @param postID ID of the post to retrieve details for
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPostDetails(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -304,7 +428,12 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // Gets a single Jodel in new V3 of endpoint with all replies by post ID
+    /**
+     * Gets a single Jodel in new V3 of endpoint with all replies by post ID
+     * @param postID ID of the post to retrieve details for
+     * @param skip Skip value
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getPostDetailsV3(String postID, int skip) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -319,7 +448,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // upvotes a post
+    /**
+     * Upvotes a post
+     * @param postID ID of the post to vote
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse upvoteJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -334,7 +467,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // downvotes a post
+    /**
+     * Downvotes a post
+     * @param postID ID of the post to vote
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse downvoteJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -349,7 +486,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // thanks a post
+    /**
+     * Thanks a post
+     * @param postID ID of the post to thank
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse thankJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -364,7 +505,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // get share url
+    /**
+     * Get share url
+     * @param postID ID of the post to share
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getJodelShareLink(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -390,7 +535,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // pin a Jodel
+    /**
+     * Pins a Jodel
+     * @param postID ID of the post to pin
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse pinJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -404,7 +553,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // unpin a Jodel
+    /**
+     * Unpins a Jodel
+     * @param postID ID of the post to unpin
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse unpinJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -418,7 +571,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // enable notifications of a Jodel
+    /**
+     * Enable notifications of a Jodel
+     * @param postID ID of the post to enable notification
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse enableNotification(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -432,7 +589,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // disable notifications of a Jodel
+    /**
+     * Disables notifications of a Jodel
+     * @param postID ID of the post to disable notification
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse disableNotification(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -446,7 +607,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // deletes a (own) Jodel
+    /**
+     * Deletes a (own) Jodel
+     * @param postID ID of the post to delete
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse deleteJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -460,7 +625,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // upvotes a sticky Jodel
+    /**
+     * Upvotes a sticky Jodel
+     * @param postID ID of the sticky post to upvote
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse upvoteStickyJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -474,7 +643,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // downvotes a sticky Jodel
+    /**
+     * Downvotes a sticky Jodel
+     * @param postID ID of the sticky post to downvote
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse downvoteStickyJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -488,7 +661,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // dismisses a sticky Jodel
+    /**
+     * Dismisses a sticky Jodel
+     * @param postID ID of the sticky post to dismiss
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse dismissStickyJodel(String postID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -502,7 +679,10 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // gets Notifications
+    /**
+     * Gets Notifications for current account
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getNotifications() {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -516,7 +696,10 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // gets new Notifications
+    /**
+     * Gets new Notifications for current account
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getNotificationsNew() {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -530,7 +713,12 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // sets a notification "read" by postID or notificationID
+    /**
+     * Sets a notification "read" by postID or notificationID
+     * @param postID ID of the post to set notification read
+     * @param notificationID ID of the notification to set read
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse setNotificationRead(String postID, String notificationID) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -549,7 +737,10 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // gets the recommended channels
+    /**
+     * Gets the recommended channels
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getRecommendedChannels() {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -563,7 +754,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // gets metadata of a channel
+    /**
+     * Gets metadata of a channel
+     * @param channel Name of the channel
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getChannelMeta(String channel) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -577,7 +772,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // follows a channel
+    /**
+     * Follows a channel
+     * @param channel Name of the channel
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse followChannel(String channel) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -591,7 +790,11 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // unfollows a channel
+    /**
+     * Unfollows a channel
+     * @param channel Name of the channel
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse unfollowChannel(String channel) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();
@@ -605,7 +808,13 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // sets the user profile
+    /**
+     * Sets the user profile
+     * @param userType Type of user (as defined in JodelUsertype)
+     * @param gender Gender (m or f)
+     * @param age Age of the user
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse setUserProfile(String userType, String gender, int age) {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         if (userType != null && gender != null) {
@@ -622,7 +831,10 @@ public class JodelAccount {
         return requestResponse;
     }
 
-    // gets your karma
+    /**
+     * Gets your karma
+     * @return The requestResponse of type JodelRequestResponse
+     */
     public JodelRequestResponse getKarma() {
         JodelRequestResponse requestResponse = new JodelRequestResponse();
         this.updateHTTPParameter();

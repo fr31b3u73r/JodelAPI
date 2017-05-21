@@ -10,7 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 
 public class JodelParser {
-    // parses a list of Jodels
+    /**
+     * Parses a list of Jodels
+     * @param jodelsJSON String containing a JSON with jodels (from rawResponse)
+     * @return A list of objects from type JodelPost
+     */
     public static List<JodelPost> getParsedJodels(String jodelsJSON) {
         List<JodelPost> result = new ArrayList<JodelPost>();
         JSONParser parserJodels = new JSONParser();
@@ -61,7 +65,11 @@ public class JodelParser {
         return result;
     }
 
-    // parses a single Jodel (with replies)
+    /**
+     * Parses a single Jodel (with replies)
+     * @param jodelJSON String containing a JSON with a single jodel (from rawResponse)
+     * @return An object of type JodelPost containing parsed Jodel with replies
+     */
     public static JodelPost getParsedJodel(String jodelJSON) {
         JSONParser parserJodels = new JSONParser();
         JodelPost jodelPost = new JodelPost();
@@ -131,7 +139,11 @@ public class JodelParser {
         return jodelPost;
     }
 
-    // parses a single Jodel (with replies) in V3 of API
+    /**
+     * Parses a single Jodel (with replies) in V3 of API
+     * @param jodelJSON String containing a JSON with a single jodel (from rawResponse)
+     * @return An object of type JodelPost containing parsed Jodel with replies
+     */
     public static JodelPost getParsedJodelV3(String jodelJSON) {
         JSONParser parserJodels = new JSONParser();
         JodelPost jodelPost = new JodelPost();
@@ -209,7 +221,11 @@ public class JodelParser {
         return jodelPost;
     }
 
-    // parses a list of Jodel-notifications
+    /**
+     * Parses a list of Jodel-notifications
+     * @param notificationsJSON String containing a JSON with notifications
+     * @return A list of objects from type JodelNotification
+     */
     public static List<JodelNotification> getParsedNotifications(String notificationsJSON) {
         List<JodelNotification> jodelNotifications = new ArrayList<JodelNotification>();
         JSONParser parser = new JSONParser();

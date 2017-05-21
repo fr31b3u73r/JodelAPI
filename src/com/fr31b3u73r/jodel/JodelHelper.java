@@ -9,6 +9,10 @@ import java.util.Formatter;
 import java.util.Random;
 
 public class JodelHelper {
+    /**
+     * Gets a random color for a new Jodel
+     * @return Color string
+     */
     public static String getRandomColor() {
         String[] allColors = {JodelPostColor.GREEN, JodelPostColor.BLUE, JodelPostColor.RED,
                 JodelPostColor.ORANGE, JodelPostColor.TEAL, JodelPostColor.YELLOW};
