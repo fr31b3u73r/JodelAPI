@@ -4,7 +4,7 @@
 *This is an inofficial library to interact with the private API of the Jodel App. Not affiliated with The Jodel Venture GmbH. API can change at any time so this library might not work in the future.*
 
 ## Usage
-Have a look in the examples folder, the docs folder and the source of the library.
+Have a look in the examples folder, the [online documentation (Javadoc)](https://fr31b3u73r.github.io/JodelAPI/) and the source of the library.
 
 It is mainly dependent on the [Python Jodel API of nborrmann](https://github.com/nborrmann/jodel_api). There are some classes which contain helpers and parses to simplify interacting with the API. Please have a look into docs folder to find a full documentation.
 
@@ -119,7 +119,7 @@ String karma = myKarma.responseValues.get("karma");
 ```
 ...and many more
 
-Full documentation of public methods can be found in docs folder.
+Full documentation of public methods can be found in [online documentation (Javadoc)](https://fr31b3u73r.github.io/JodelAPI/).
 
 Feel free to commit changes and additions like missing methods, tests, docs etc.!
 If you encounter any problem don´t hesitate to open an issue - not all methods might be tested properly and bugs can occur at any time.
