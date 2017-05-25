@@ -18,12 +18,24 @@ Add this line to the class you want to use the Jodel library:
 import com.fr31b3u73r.jodel.*;
 ```
 
-To create a new account use the constructor of class ```JodelAccount``` with your location and set all other values to ```null```:
+To create a new account use the constructor of class ```JodelAccount``` with your location. All other values will be set to null by default to simplify creating a new account.
 ```java
-JodelAccount ja = new JodelAccount("48.148434", "11.567867", "Munich", "DE", "Munich", false, null, null, null, null, null);
+JodelAccount ja = new JodelAccount("48.148434", "11.567867", "Munich", "DE", "Munich");
 ```
 
 This is all you have to do, your account will then be set up. To retrieve your account data simply call ```getAccountData()``` which returns an object of type ```JodelAccountData``` with all needed information to use your account again later.
+For using your existing account data, just use one of the other constructors to pass values separately or as an ```JodelAccountData``` object.
+E.g.:
+```java
+JodelAccountData myAccountData = new JodelAccountData();
+myAccountData.accessToken = "your_access_token";
+myAccountData.deviceUID = "your_device_uid";
+myAccountData.distinctID = "your_distinct_uid";
+myAccountData.expirationDate = "your_expiration_date";
+myAccountData.refreshToken = "your_refresh_token";
+
+JodelAccount myJodelAccount = new JodelAccount("48.148434", "11.567867", "Munich", "DE", "Munich", false, myAccountData);
+```
 
 #### Verify account
 To be able to use most functions of your generated account you need to verify it. This is done by an image captcha. You can retrieve image url of this captcha and key simply by using the following function:

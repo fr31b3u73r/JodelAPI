@@ -74,6 +74,34 @@ public class JodelAccount {
     }
 
     /**
+     * Overloads constructor using JodelAccountData object instead of single values for account data
+     *
+     * @param lat            Latitute of location
+     * @param lng            Longitude of location
+     * @param city           Name of the city
+     * @param country        Countrycode (e.g. DE for Germany)
+     * @param name           Name of the location (normally the same as city)
+     * @param updateLocation Boolean to update a location for existing account
+     * @param accountData    Object of type JodelAccountData containing all necessary account data
+     */
+    public JodelAccount(String lat, String lng, String city, String country, String name, Boolean updateLocation, JodelAccountData accountData) {
+        this(lat, lng, city, country, name, updateLocation, accountData.accessToken, accountData.deviceUID, accountData.refreshToken, accountData.distinctID, accountData.expirationDate);
+    }
+
+    /**
+     * Overloads constructor to simplify creating a new account
+     *
+     * @param lat     Latitute of location
+     * @param lng     Longitude of location
+     * @param city    Name of the city
+     * @param country Countrycode (e.g. DE for Germany)
+     * @param name    Name of the location (normally the same as city)
+     */
+    public JodelAccount(String lat, String lng, String city, String country, String name) {
+        this(lat, lng, city, country, name, false, null, null, null, null, null);
+    }
+
+    /**
      * Returns current account data as object of type JodelAccountData
      * @return Account data
      */
@@ -81,7 +109,7 @@ public class JodelAccount {
         JodelAccountData myJodelAccountData = new JodelAccountData();
         myJodelAccountData.accessToken = this.accessToken;
         myJodelAccountData.deviceUID = this.deviceUID;
-        myJodelAccountData.distincID = this.distinctID;
+        myJodelAccountData.distinctID = this.distinctID;
         myJodelAccountData.expirationDate = this.expirationDate;
         myJodelAccountData.refreshToken = this.refreshToken;
         return myJodelAccountData;
