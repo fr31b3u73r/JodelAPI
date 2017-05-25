@@ -6,9 +6,8 @@ import com.fr31b3u73r.jodel.*;
 public class ExampleImplementation {
 	public static void main(String[] args) {
 		// create a new Jodel account
-		JodelAccount ja = new JodelAccount("48.148434", "11.567867", "Munich", "DE", "Munich", false, 
-				null, null, null, null, null);
-		
+        JodelAccount ja = new JodelAccount("48.148434", "11.567867", "Munich", "DE", "Munich");
+
 		// you can get your account data at any time as an object of type JodelAccountData
 		// this information can be stored and used in the constructor of JodelAccount
 		JodelAccountData myAccountData = ja.getAccountData();
