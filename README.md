@@ -1,6 +1,8 @@
 # JodelAPI
 [![Implementation](https://img.shields.io/badge/api--version-4.47.0-brightgreen.svg)]() [![Java](https://img.shields.io/badge/java-8-brightgreen.svg)]() [![Donate](https://img.shields.io/badge/donate-PayPal-brightgreen.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5654A67GA3GHA)
 
+**Important information: There has been made a change recently by Jodel which seems to have removed captcha verification. So generating new accounts with this API will currently result into error.**
+
 *This is an inofficial library to interact with the private API of the Jodel App. Not affiliated with The Jodel Venture GmbH. API can change at any time so this library might not work in the future.*
 
 ## Usage
